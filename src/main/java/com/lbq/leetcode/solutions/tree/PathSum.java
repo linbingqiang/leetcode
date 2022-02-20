@@ -74,7 +74,7 @@ public class PathSum {
         if (root == null) {
             return false;
         }
-        return dfs(root, targetSum);
+        return dfs(root, targetSum - root.val);
     }
 
     public boolean traversalIter(TreeNode root, int targetSum) {
