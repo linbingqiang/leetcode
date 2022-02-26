@@ -2,6 +2,7 @@ package com.lbq.leetcode.solutions.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * LeetCode:98
@@ -28,7 +29,7 @@ public class ValidBST {
         root2.right = root4;
 
         ValidBST validBST = new ValidBST();
-        System.out.println(validBST.validBSTWithInorder(root));
+        System.out.println(validBST.validBSTWithIter(root));
     }
 
     /**
@@ -41,6 +42,36 @@ public class ValidBST {
 
     public boolean isValidBST(TreeNode root) {
         return validBSTWithArray(root);
+    }
+
+    /**
+     * 迭代处理法
+     * 将中序遍历的迭代法稍微做出特殊处理就可以
+     * @param root
+     * @return
+     */
+    public boolean validBSTWithIter(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode pre = null;
+        while (root != null || !stack.isEmpty()) {
+            // 左子节点入栈
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            //判断是否有序
+            if (pre != null && pre.val >= root.val) {
+                return false;
+            } else {
+                pre = root;
+            }
+            root = root.right;
+        }
+        return true;
     }
 
     public boolean validBSTWithInorder(TreeNode root) {
