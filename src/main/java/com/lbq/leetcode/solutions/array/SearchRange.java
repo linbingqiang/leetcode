@@ -14,7 +14,7 @@ public class SearchRange {
 
     public static void main(String[] args) {
         SearchRange sr = new SearchRange();
-        int[] nums = {5, 7, 7, 8, 8, 10};
+        int[] nums = {5, 7, 7, 8, 8, 8, 8, 8, 10};
         ArrayUtils.printArray(sr.searchRange(nums, 7));
         ArrayUtils.printArray(sr.searchRange(nums, 9));
         ArrayUtils.printArray(sr.searchRange(nums, 5));
