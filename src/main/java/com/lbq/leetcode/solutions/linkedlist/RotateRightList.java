@@ -43,4 +43,31 @@ public class RotateRightList {
         iter.next = null;
         return ret;
     }
+
+    public ListNode rotateRight1(ListNode head, int k) {
+        /**
+         * 假设链表的长度为n，为了将链表每个节点向右移动k个位置，我们只需要将链表的后k % n个节点移动到链表的最前面。
+         * 然后将链表的后 k % n个节点和前n - k个节点链接到一起即可
+         */
+        if (head == null || k == 0) {
+            return head;
+        }
+        int n = 0;
+        ListNode tail = null;
+        for (ListNode p = head; p != null; p = p.next) {
+            tail = p;
+            n++;
+        }
+        // 对n取模
+        k = k % n;
+        ListNode p = head;
+        for (int i = 0; i < n - k - 1; i++) {
+            // 链表的第n - 1个节点
+            p = p.next;
+        }
+        tail.next = head;
+        head = p.next;
+        p.next = null;
+        return head;
+    }
 }
