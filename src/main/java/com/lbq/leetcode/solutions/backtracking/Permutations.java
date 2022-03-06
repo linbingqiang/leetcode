@@ -1,9 +1,6 @@
 package com.lbq.leetcode.solutions.backtracking;
 
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * LeetCode:46
@@ -15,10 +12,10 @@ import java.util.List;
  */
 public class Permutations {
 
-    List<List<Integer>> result = new ArrayList<>();
+    Set<List<Integer>> result = new HashSet<>();
     Deque<Integer> path = new LinkedList<>();
 
-    public List<List<Integer>> permute(int[] nums) {
+    public Set<List<Integer>> permute(int[] nums) {
         boolean[] used = new boolean[nums.length];
         backtracking(nums, used);
         return result;
@@ -44,8 +41,8 @@ public class Permutations {
 
     public static void main(String[] args) {
         Permutations permutations = new Permutations();
-        int[] nums = {1, 2, 3};
-        List<List<Integer>> result = permutations.permute(nums);
+        int[] nums = {1, 1, 3};
+        Set<List<Integer>> result = permutations.permute(nums);
         System.out.println(result);
     }
 }
