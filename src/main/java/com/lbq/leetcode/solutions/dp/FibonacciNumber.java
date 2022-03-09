@@ -10,7 +10,7 @@ public class FibonacciNumber {
 
     public static void main(String[] args) {
         FibonacciNumber fn = new FibonacciNumber();
-        System.out.println(fn.fib(10));
+        System.out.println(fn.fin1(10));
     }
 
     public int fib(int n) {
@@ -29,5 +29,23 @@ public class FibonacciNumber {
         }
         System.out.println();
         return dp[n];
+    }
+
+    /**
+     * 优化
+     */
+    public int fin1(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        int[] dp = new int[2];
+        dp[0] = 0;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            int sum = dp[0] + dp[1];
+            dp[0] = dp[1];
+            dp[1] = sum;
+        }
+        return dp[1];
     }
 }
