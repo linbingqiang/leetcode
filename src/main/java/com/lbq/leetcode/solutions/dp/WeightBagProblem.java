@@ -16,6 +16,10 @@ public class WeightBagProblem {
         int maxValue = wb.getMaxValue(weights, values, bagWeight);
         System.out.println();
         System.out.println(maxValue);
+        maxValue = wb.getMaxValueByBackTracking(weights, values);
+        System.out.println(maxValue);
+        maxValue = wb.getMaxValueDimensionOne(weights, values, bagWeight);
+        System.out.println(maxValue);
     }
 
     /**
@@ -73,5 +77,64 @@ public class WeightBagProblem {
             System.out.println();
         }
         return dp[weights.length - 1][bagWeight];
+    }
+
+    /**
+     * 使用回溯法解决0-1背包问题
+     * @return
+     */
+    int maxValue = Integer.MIN_VALUE;
+    int totalValue = 0;
+    int totalWeight = 0;
+    int bagWeight = 4;
+    public int getMaxValueByBackTracking(int[] weights, int[] values) {
+        backtracking(weights, values, 0);
+        return maxValue;
+    }
+
+    public void backtracking(int[] weights, int[] values, int startIndex) {
+        //判断终止条件
+        if (totalWeight > bagWeight) {
+            return;
+        }
+        maxValue = Math.max(totalValue, maxValue);
+        for (int i = startIndex; i < weights.length; i++) {
+            totalWeight += weights[i];
+            totalValue += values[i];
+            //递归
+            backtracking(weights, values, i + 1);
+            //回溯
+            totalWeight -= weights[i];
+            totalValue -= values[i];
+        }
+    }
+
+    /**
+     * 一维dp数组解决0-1背包问题
+     * 二维数组的递推公式：dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - weights[i]] + values[i])
+     * 其实可以发现如果把dp[i - 1]那一层拷贝到dp[i]上，表达式完全可以是：
+     * dp[i][j] = max(dp[i][j], dp[i][j - weights[i]] + values[i])
+     * 于是把dp[i - 1]这一次拷贝到dp[i]上，就可以只使用一个一位数组了。只用dp[j]。
+     * @param weights
+     * @param values
+     * @param bagWeight
+     * @return
+     */
+    public int getMaxValueDimensionOne(int[] weights, int[] values, int bagWeight) {
+        //1. 确定dp数组及其下标的含义：dp[j]表示：容量为j的背包，所背的物品价值可以最大为dp[j]
+        //2. 确定递推公式 dp[j] = Math.max(dp[j], dp[j - weight[i]] + values[i])
+        int[] dp = new int[bagWeight + 1];
+        //3. dp数组的初始化
+        //需要注意的是这里的背包遍历顺序是从后往前，是为了防止物品i被放入两次。
+        for (int i = 0; i < weights.length; i++) {
+            for (int j = bagWeight; j >= weights[i]; j--) {
+                dp[j] = Math.max(dp[j], dp[j - weights[i]] + values[i]);
+            }
+        }
+        //打印dp数组
+        for (int i = 0; i < dp.length; i++) {
+            System.out.print(dp[i] + ", ");
+        }
+        return dp[bagWeight];
     }
 }
