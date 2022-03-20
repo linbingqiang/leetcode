@@ -8,10 +8,11 @@ public class MovingCounts {
 
     public static void main(String[] args) {
         MovingCounts mc = new MovingCounts();
-        System.out.println(mc.movingCount(2, 3, 0));
-        System.out.println(mc.movingCount(2, 3, 1));
-        System.out.println(mc.movingCount(2, 3, 2));
-        System.out.println(mc.movingCount(2, 3, 3));
+//        System.out.println(mc.movingCount(2, 3, 0));
+//        System.out.println(mc.movingCount(2, 3, 1));
+//        System.out.println(mc.movingCount(2, 3, 2));
+//        System.out.println(mc.movingCount(2, 3, 3));
+        System.out.println(Integer.toBinaryString(128));
     }
 
     public int movingCount(int m, int n, int k) {
