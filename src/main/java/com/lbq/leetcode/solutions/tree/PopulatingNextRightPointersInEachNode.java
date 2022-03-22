@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * LeetCode: 117. 填充每个节点的下一个右侧节点指针 II
+ * LeetCode: 116. 填充每个节点的下一个右侧节点指针
  * root = [1,2,3,4,5,null,7]
  * https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node-ii/
  *
@@ -17,7 +17,7 @@ import java.util.Queue;
  * @author linbingqiang
  * @since 2022/3/22 7:20 下午
  **/
-public class PopulatingNextRightPointersInEachNodeII {
+public class PopulatingNextRightPointersInEachNode {
 
 
     public static void main(String[] args) {
@@ -26,80 +26,36 @@ public class PopulatingNextRightPointersInEachNodeII {
         Node node2 = new Node(3);
         Node node3 = new Node(4);
         Node node4 = new Node(5);
-        Node node5 = new Node(7);
+        Node node5 = new Node(6);
+        Node node6 = new Node(7);
         root.left = node1;
         root.right = node2;
 
         node1.left = node3;
         node1.right = node4;
-        node2.right = node5;
+        node2.left = node5;
+        node2.right = node6;
 
-        PopulatingNextRightPointersInEachNodeII pnr2 = new PopulatingNextRightPointersInEachNodeII();
+        PopulatingNextRightPointersInEachNode pnr2 = new PopulatingNextRightPointersInEachNode();
         pnr2.connect(root);
         System.out.println(pnr2.levelOrder(root));
     }
 
-    public List<String> levelOrder(Node root) {
-        List<String> res = new ArrayList<>();
-        if (root == null) {
-            return res;
-        }
-        Queue<Node> queue = new LinkedList<>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                Node node = queue.poll();
-                if (node.left != null) {
-                    queue.offer(node.left);
-                }
-                if (node.right != null) {
-                    queue.offer(node.right);
-                }
-                if (i == 0) {
-                    while (node != null) {
-                        res.add(String.valueOf(node.val));
-                        node = node.next;
-                    }
-                    res.add("#");
-                }
-
-            }
-        }
-        return res;
-    }
-
-    Node last = null;
-    Node nextStart = null;
     public Node connectWithoutQueue(Node root) {
         if (root == null) {
             return null;
         }
-        Node start = root;
-        while (start != null) {
-            last = null;
-            nextStart = null;
-            for (Node p = start; p != null; p = p.next) {
-                if (p.left != null) {
-                    if (last != null) {
-                        last.next = p;
-                    }
-                    if (nextStart == null) {
-                        nextStart = p;
-                    }
-                    last = p;
+        Node leftmost = root;
+        while (leftmost.left != null) {
+            Node head = leftmost;
+            while (head != null) {
+                head.left.next = head.right;
+                if (head.next != null) {
+                    head.right.next = head.next.left;
                 }
-                if (p.right != null) {
-                    if (last != null) {
-                        last.next = p;
-                    }
-                    if (nextStart == null) {
-                        nextStart = p;
-                    }
-                    last = p;
-                }
+                head = head.next;
             }
-            start = nextStart;
+            leftmost = leftmost.left;
         }
         return root;
     }
@@ -133,6 +89,36 @@ public class PopulatingNextRightPointersInEachNodeII {
             pre.next = null;
         }
         return root;
+    }
+
+    public List<String> levelOrder(Node root) {
+        List<String> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Node node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                if (i == 0) {
+                    while (node != null) {
+                        res.add(String.valueOf(node.val));
+                        node = node.next;
+                    }
+                    res.add("#");
+                }
+
+            }
+        }
+        return res;
     }
 
 
