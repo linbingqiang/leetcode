@@ -23,6 +23,7 @@ public class ThreeSum {
 
     public List<List<Integer>> threeSum(int[] nums) {
         boolean[] used = new boolean[nums.length];
+        Arrays.sort(nums);
         backtracking(nums, used,0, sum);
         return result;
     }
