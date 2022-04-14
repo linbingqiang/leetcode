@@ -18,6 +18,7 @@ public class PalindromePartitioning {
     List<List<String>> result = new ArrayList<>();
     Deque<String> path = new LinkedList<>();
 
+
     public List<List<String>> partition(String s) {
         backtracking(s, 0);
         return result;
@@ -49,7 +50,7 @@ public class PalindromePartitioning {
     }
 
     public static void main(String[] args) {
-        String s = "aab";
+        String s = "aaba";
         PalindromePartitioning pp = new PalindromePartitioning();
         pp.backtracking(s, 0);
         System.out.println(pp.result);
