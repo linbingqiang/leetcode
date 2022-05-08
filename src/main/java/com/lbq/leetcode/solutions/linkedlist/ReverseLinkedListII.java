@@ -12,20 +12,68 @@ public class ReverseLinkedListII {
         ListNode head = new ListNode(1);
         ListNode head1 = new ListNode(2);
         ListNode head2 = new ListNode(3);
-        ListNode head3 = new ListNode(4);
-        ListNode head4 = new ListNode(5);
+//        ListNode head3 = new ListNode(4);
+//        ListNode head4 = new ListNode(5);
 
         head.next = head1;
         head1.next = head2;
-        head2.next = head3;
-        head3.next = head4;
+//        head2.next = head3;
+//        head3.next = head4;
 
         ReverseLinkedListII reverseLinkedListII = new ReverseLinkedListII();
         //before reverse
         LinkedListUtils.printLinkedList(head);
-        reverseLinkedListII.reverseBetween(head, 2, 5);
+        ListNode newHead = reverseLinkedListII.reverseBetweenWitOnceIter(head, 1, 3);
         //after reverse
-        LinkedListUtils.printLinkedList(head);
+        LinkedListUtils.printLinkedList(newHead);
+    }
+
+    public ListNode reverseBetweenWitOnceIter(ListNode head, int left, int right) {
+        if(head == null || left == right) {
+            return head;
+        }
+        ListNode prev = null;
+        ListNode curr = head;
+        int index = 1;
+        ListNode newPrev = null;
+        ListNode tail = null;
+        while (curr != null) {
+            if (index < left) {
+                prev = curr;
+                curr = curr.next;
+            }
+            if (left <= index && index <= right) {
+                if (left == index) {
+                    tail = curr;
+                }
+                ListNode next = curr.next;
+                curr.next = newPrev;
+                newPrev = curr;
+                curr = next;
+            }
+            if (index > right) {
+                break;
+                //curr = curr.next;
+            }
+            index++;
+        }
+        // prev和curr的关系
+        // prev为空，则说明是从链表头节点开始翻转
+        // curr为空，则说明翻转到链表的尾节点
+        if (prev == null) {
+            if (curr != null) {
+                if (tail != null) {
+                    tail.next = curr;
+                }
+            }
+            return newPrev;
+        } else {
+            prev.next = newPrev;
+            if (tail != null) {
+                tail.next = curr;
+            }
+            return head;
+        }
     }
 
     /**
